@@ -56,6 +56,7 @@
             openFileDialog1 = new OpenFileDialog();
             saveFileDialog1 = new SaveFileDialog();
             saveImageFileDialog = new SaveFileDialog();
+            saveAspngToolStripMenuItem = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             menuStrip1.SuspendLayout();
             SuspendLayout();
@@ -97,7 +98,7 @@
             // 
             openToolStripMenuItem.Name = "openToolStripMenuItem";
             openToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.O;
-            openToolStripMenuItem.Size = new Size(270, 34);
+            openToolStripMenuItem.Size = new Size(235, 34);
             openToolStripMenuItem.Text = "Open...";
             openToolStripMenuItem.Click += openToolStripMenuItem_Click;
             // 
@@ -105,7 +106,7 @@
             // 
             saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             saveToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.S;
-            saveToolStripMenuItem.Size = new Size(270, 34);
+            saveToolStripMenuItem.Size = new Size(235, 34);
             saveToolStripMenuItem.Text = "Save...";
             saveToolStripMenuItem.Click += saveToolStripMenuItem_Click;
             // 
@@ -233,7 +234,7 @@
             // 
             // saveImageToolStripMenuItem
             // 
-            saveImageToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { saveAsjpgToolStripMenuItem });
+            saveImageToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { saveAsjpgToolStripMenuItem, saveAspngToolStripMenuItem });
             saveImageToolStripMenuItem.Name = "saveImageToolStripMenuItem";
             saveImageToolStripMenuItem.Size = new Size(78, 29);
             saveImageToolStripMenuItem.Text = "Image";
@@ -266,6 +267,13 @@
             // 
             saveImageFileDialog.FileName = "entity_relationship_diagram";
             saveImageFileDialog.Filter = "JPG|*.jpg";
+            // 
+            // saveAspngToolStripMenuItem
+            // 
+            saveAspngToolStripMenuItem.Name = "saveAspngToolStripMenuItem";
+            saveAspngToolStripMenuItem.Size = new Size(317, 34);
+            saveAspngToolStripMenuItem.Text = "Save as .png";
+            saveAspngToolStripMenuItem.Click += saveAspngToolStripMenuItem_Click;
             // 
             // Form1
             // 
@@ -314,5 +322,6 @@
         private ToolStripMenuItem saveImageToolStripMenuItem;
         private SaveFileDialog saveImageFileDialog;
         private ToolStripMenuItem saveAsjpgToolStripMenuItem;
+        private ToolStripMenuItem saveAspngToolStripMenuItem;
     }
 }

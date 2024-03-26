@@ -14,6 +14,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = ERD_drawer
-build_property.ProjectDir = \\192.168.1.106\ooga\Win Forms\ERD drawer\ERD drawer\
+build_property.ProjectDir = C:\Users\malac\Desktop\Win Forms\ERD drawer\ERD drawer\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 

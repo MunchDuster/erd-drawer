@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ERD drawer")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5d7efc89048197ceec969dd9e1fe072b62f34279")]
 [assembly: System.Reflection.AssemblyProductAttribute("ERD drawer")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ERD drawer")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

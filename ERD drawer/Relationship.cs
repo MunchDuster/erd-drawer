@@ -4,6 +4,19 @@ namespace ERD_drawer
 {
     public class Relationship : AttributedDisplayable
     {
+        public class RelationshipLink
+        {
+            public RelationshipLink(int entityId, string quantity)
+            {
+                EntityId = entityId;
+                Quantity = quantity;
+            }
+            public int EntityId { get; set; }
+            public string Quantity { get; set; }
+
+            [JsonIgnore] public Entity Entity => Entity.Entities.Find(entity => entity.Id == EntityId)!;
+        }
+        
         [JsonIgnore] const int numberPaddingX = -10;
         [JsonIgnore] const int numberPaddingY = 10;
 
@@ -17,15 +30,56 @@ namespace ERD_drawer
         [JsonIgnore] protected override int TextLeft => 15;
         [JsonIgnore] protected override int TextTop => 28;
         [JsonIgnore] public override int Height => 80;
+        public bool IsUnary { get; set; }
 
-        public string LeftEntityName { get; set; }
-        public string RightEntityName { get; set; }
-        public string LeftQuantity { get; set; }
-        public string RightQuantity { get; set; }
-
+        public List<RelationshipLink> Links;
         public double lineBias { get; set; }
 
-        [JsonIgnore] private string key => $"{LeftEntityName}-{RightEntityName}";
+        [JsonIgnore] private string key => string.Join("-", Links);
+
+        [JsonIgnore] private List<Point> startPoints => new()
+        { // Anti clockwise
+            new(Right  , MiddleY),
+            new(MiddleX, Top    ),
+            new(Left   , MiddleY),
+            new(MiddleX, Bottom )
+        };
+
+        [JsonIgnore]
+        private List<Func<Displayable, int>> Orderers => new()
+        { // Anti clockwise
+            (Displayable displayable) => displayable.MiddleX - MiddleX,
+            (Displayable displayable) => -(displayable.MiddleY - MiddleY),
+            (Displayable displayable) => -(displayable.MiddleX - MiddleX),
+            (Displayable displayable) => displayable.MiddleY - MiddleY
+        };
+
+        private void DrawLinkText(int linkIndex, int order)
+        {
+            string text = Links[linkIndex].Quantity;
+            int right = startPoints[order].X;
+            int left = startPoints[order].X - GetStringWidth(text);
+            int top = startPoints[order].Y;
+            int bottom = startPoints[order].Y - 20;
+
+            Point pos = new();
+            switch (order)
+            {
+                case 0: 
+                    pos = new(right, top); 
+                    break;
+                case 1: 
+                    pos = new(right, bottom);
+                    break;
+                case 2: 
+                    pos = new(left, top);
+                    break;
+                case 3:
+                    pos = new(right, top);
+                    break;
+            }
+            paper.DrawString(text, font, brush, pos);
+        }
 
         public static void PopulateMap()
         {
@@ -43,19 +97,20 @@ namespace ERD_drawer
         {
             for (int antiInfinityLoop = 0; antiInfinityLoop < 1000 && Relationships.Count > 0; antiInfinityLoop++)
             {
-                if (Relationships[0].LeftEntityName == entity.Name || Relationships[0].RightEntityName == entity.Name)
-                    Relationships[0].Delete();
+                for (int i = Relationships[0].Links.Count - 1; i >= 0 ; i--)
+                    if (Relationships[0].Links.Any(link => link.EntityId == entity.Id))
+                        Relationships[0].Links.RemoveAt(i);
             }
             PopulateMap();
         }
 
-        public Relationship(string name, List<Attribute> attributes, int X, int Y, string leftEntityName, string rightEntityName, string leftQuantity, string rightQuantity, double lineBias) : base(name, attributes, X, Y)
+        public Relationship(string name, List<Attribute> attributes, int X, int Y, List<RelationshipLink> links, double lineBias, bool isUnary) : base(name, attributes, X, Y)
         {
-            LeftEntityName = leftEntityName;
-            RightEntityName = rightEntityName;
-            LeftQuantity = leftQuantity;
-            RightQuantity = rightQuantity;
+            Links = links;
+            
             this.lineBias = lineBias;
+
+            IsUnary = isUnary;
 
             form1.MouseWheel += ChangeBias;
 
@@ -64,13 +119,11 @@ namespace ERD_drawer
         }
 
         [JsonConstructor]
-        public Relationship(string name, List<Attribute> attributes, int X, int Y, string leftEntityName, string rightEntityName, string leftQuantity, string rightQuantity, double lineBias, int id) : base(name, attributes, X, Y, id)
+        public Relationship(string name, List<Attribute> attributes, int X, int Y, List<RelationshipLink> links, double lineBias, bool isUnary, int id) : base(name, attributes, X, Y, id)
         {
-            LeftEntityName = leftEntityName;
-            RightEntityName = rightEntityName;
-            LeftQuantity = leftQuantity;
-            RightQuantity = rightQuantity;
+            Links = links;
             this.lineBias = lineBias;
+            IsUnary = isUnary;
 
             form1.MouseWheel += ChangeBias;
 
@@ -87,51 +140,77 @@ namespace ERD_drawer
         public override void Draw(bool selected)
         {
             DrawDiamond();
-            DrawLine();
+            DrawLines();
             DrawName();
 
             foreach (Attribute attribute in Attributes)
                 attribute.Draw(attribute.IsSelected);
         }
 
-        private void DrawLine()
+        private void DrawLines()
         {
-            Console.WriteLine("drawing relationship: " + Name);
-            Entity leftEntity = Entity.Entities.Find(entity => entity.Name.Equals(LeftEntityName))!;
-            Entity rightEntity = Entity.Entities.Find(entity => entity.Name.Equals(RightEntityName))!;
+            // special case for unary relationship
+            if (IsUnary)
+            {
+                SplitLine.DrawHorizontalSplitLine(
+                    startPoints[2],
+                    Math.Min(Left, Links[0].Entity.Left) - 10,
+                    new(Links[0].Entity.Left, Links[0].Entity.MiddleY)
+                    );
+                DrawLinkText(0, 2);
 
-            //int entityX = 0;
-            //int entityY = 0;
-            //switch (Direction)
-            //{
-            //    case "left":
-            //        entityX = leftEntity.X - (leftEntity + width);
-            //        entityY = leftEntity.Y;
-            //        break;
-            //    case "right":
-            //        entityX = startingEntity.X + (entitySpacing + width);
-            //        entityY = startingEntity.Y;
-            //        break;
-            //    case "up":
-            //        entityX = startingEntity.X;
-            //        entityY = startingEntity.Y - (entityVertSpacing + Height);
-            //        break;
-            //    case "down":
-            //        entityX = startingEntity.X;
-            //        entityY = startingEntity.Y + (entityVertSpacing + Height);
-            //        break;
-            //    default:
-            //        Console.WriteLine("Unknown direction " + Direction + "!");
-            //        break;
-            //}
+                SplitLine.DrawHorizontalSplitLine(
+                   startPoints[0],
+                   Math.Max(Right, Links[0].Entity.Right) + 10,
+                   new(Links[0].Entity.Right, Links[0].Entity.MiddleY)
+                   );
+                DrawLinkText(1, 0);
+                return;
+            }
 
-            DrawSplitLine(leftEntity, this);
-            DrawSplitLine(this, rightEntity);
-
-            paper.DrawString(LeftQuantity, font, brush, X - numberPaddingX - GetStringWidth(RightQuantity), Y + numberPaddingY);
-            paper.DrawString(RightQuantity, font, brush, X + Width + numberPaddingX, Y + numberPaddingY);
+            int[] startIndices = GetStartPointOrder();
+            for (int i = 0; i < Links.Count; i++)
+            {
+                Entity entity = Links[i].Entity;
+                Point start = startPoints[startIndices[i]];
+                SplitLine.DrawHorizontalSplitLine(this, entity, start);
+                DrawLinkText(i, startIndices[i]);
+            }
         }
 
+        /// <summary>
+        /// Calculates the optimal startPoint for each link
+        /// </summary>
+        /// <returns></returns>
+        private int[] GetStartPointOrder()
+        {
+            List<int> orderersLeft = new();
+            for (int i = 0; i < Orderers.Count; i++)
+            {
+                orderersLeft.Add(i);
+            }
+
+            int[] order = new int[Links.Count];
+
+            for (int i = 0; i < Links.Count; i++)
+            {
+                int index = -1;
+                int highestScore = int.MinValue;
+                for(int j = 0; j < orderersLeft.Count; j++)
+                {
+                    int score = Orderers[orderersLeft[j]](Links[i].Entity);
+                    if (score > highestScore)
+                    {
+                        index = orderersLeft[j];
+                        highestScore = score;
+                    }
+                }
+                order[i] = index;
+                orderersLeft.Remove(index);
+            }
+            return order;
+        }
+        
         private void DrawDiamond()
         {
             int xMid = X + Width / 2;

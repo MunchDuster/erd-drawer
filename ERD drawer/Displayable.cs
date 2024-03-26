@@ -24,6 +24,14 @@ namespace ERD_drawer
         public int X { get; set; }
         public int Y { get; set; }
 
+        [JsonIgnore] public int Right => X + Width;
+        [JsonIgnore] public int Left => X;
+        [JsonIgnore] public int Top => Y;
+        [JsonIgnore] public int Bottom => Y + Height;
+        [JsonIgnore] public int MiddleX => X + Width / 2;
+        [JsonIgnore] public int MiddleY => Y + Height / 2;
+        [JsonIgnore] public Point Center => new(MiddleX, MiddleY);
+
         [JsonIgnore] protected SolidBrush brush => new (Color.Black);
         [JsonIgnore] private Pen? _pen;
         [JsonIgnore] protected Pen pen
@@ -96,6 +104,7 @@ namespace ERD_drawer
         public virtual void Delete()
         {
             Displayables.Remove(this);
+            Form1.selected.Remove(Id);
         }
 
         public static void DeleteAll()
@@ -104,41 +113,6 @@ namespace ERD_drawer
             {
                 Displayables[0].Delete();
             }
-        }
-
-        /// <summary>
-        /// Draws line that would be diagonal in three parts such that there are no diagonal lines
-        /// </summary>
-        protected void DrawSplitLine(Displayable A, Displayable B)
-        {
-            bool isAOnRight = A.X > B.X;
-            Displayable right = isAOnRight ? A : B;
-            Displayable left = isAOnRight ? B : A;
-
-            bool isOverTop = left.X < right.X && left.X + left.Width > right.X;
-
-            Point startPoint = new Point(right.X, right.Y + right.Height / 2);
-            Point endPoint = new Point(left.X + left.Width, left.Y + left.Height / 2);
-
-            int midX = startPoint.X + (int)((endPoint.X - startPoint.X) * 0.5);
-
-            if (isOverTop)
-            {
-                bool closerToLeft = Math.Abs(left.X - right.X) < Math.Abs(left.X + left.Width - (right.X + right.Width));
-                endPoint.X = closerToLeft ? left.X : left.X + left.Width;
-                startPoint.X = !closerToLeft ? right.X + right.Width : right.X;
-                if (closerToLeft)
-                    midX = Math.Min(left.X, right.X) - 10;
-                else
-                    midX = Math.Max(left.X + left.Width, right.X + right.Width) + 10;
-            }
-
-            Point point2 = new(midX, startPoint.Y);
-            Point point3 = new(midX, endPoint.Y);
-
-            paper.DrawLine(pen, startPoint, point2);
-            paper.DrawLine(pen, point2, point3);
-            paper.DrawLine(pen, point3, endPoint);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace ERD_drawer
@@ -34,6 +35,7 @@ namespace ERD_drawer
             InitializeComponent();
             Displayable.font = new("Consolas", 10);
             Displayable.form1 = this;
+            SplitLine.pen = new(Color.Black);
 
             pictureBox1_Paint(new object(), new PaintEventArgs(CreateGraphics(), new Rectangle()));
         }
@@ -81,6 +83,7 @@ namespace ERD_drawer
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
             Displayable.paper = e.Graphics;
+            SplitLine.paper = e.Graphics;
 
             if (boxSelecting)
             {
@@ -248,47 +251,82 @@ namespace ERD_drawer
 
         private void relationshipToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (selected.Count != 2)
+            List<Entity> entities = Filter<Entity>(selected);
+
+            if (entities.Count == 0)
             {
-                MessageBox.Show("Must have exactly 2 entities selected before making a relationship.");
+                MessageBox.Show("Must have at least 1 entity selected before making a relationship.");
                 return;
             }
 
-            // Swap indices otherwise left is right and right is left
-            Entity entity1 = Entity.Entities.First(e => e.Id == selected[0]);
-            Entity entity2 = Entity.Entities.First(e => e.Id == selected[1]);
+            int x = 0, y = 0;
 
-            if (entity1 == null || entity2 == null)
+            bool isUnary = entities.Count == 1;
+
+            if (isUnary)
             {
-                MessageBox.Show("Must have exactly 2 entities selected before making a relationship.");
-                return;
+                x = entities[0].Right + 100;
+                y = entities[0].Y;
+            }
+            else
+            {
+                x = entities.Sum(entity => entity.X) / entities.Count;
+                y = entities.Sum(entity => entity.Y) / entities.Count;
             }
 
-            int x = (entity1.X + entity2.X) / 2;
-            int y = (entity1.Y + entity2.Y) / 2;
+            List<string> inputs = new(){ "Name" };
 
-            string[] inputs = { "Name", "L Quantity", "R Quantity" };
-            string[] outputs = Prompt.ShowDialog(inputs, "New Relationship", Relationship.color);
+            if (isUnary)
+            {
+                inputs.Add(entities[0].Name + "'s Quantity In");
+                inputs.Add(entities[0].Name + "'s Quantity Out");
+            }
+            else
+            {
+                string[] names = entities.Select(entity => entity.Name + "'s Quantity").ToArray();
+                foreach (string name in names)
+                {
+                    inputs.Add(name);
+                }
+            }
+
+            string[]? outputs = Prompt.ShowDialog(inputs.ToArray(), "New Relationship", Relationship.color);
 
             if (outputs == null)
-                return;
+                return; // cancelled creation prompt
 
-            bool entity1IsLeft = entity1.X < entity2.X;
-            Entity leftEntity = entity1IsLeft ? entity1 : entity2;
-            Entity rightEntity = entity1IsLeft ? entity2 : entity1;
-            Select(new Relationship(outputs[0], new(), x, y, leftEntity.Name, rightEntity.Name, outputs[1], outputs[2], 0.5));
+            List<Relationship.RelationshipLink> links = new();
+
+            if(isUnary)
+            {
+                links.Add(new(entities[0].Id, outputs[1]));
+                links.Add(new(entities[0].Id, outputs[2]));
+            }
+            else
+            {
+                Debug.WriteLine($"outputs: " + outputs.Length + ", inputs: " + inputs.Count + ", entities: " + entities.Count);
+                for (int i = 0; i < entities.Count; i++)
+                {
+                    links.Add(new(entities[i].Id, outputs[i + 1]));
+                }
+            }
+
+            Select(new Relationship(outputs[0], new(), x, y, links, 0.5, isUnary));
         }
 
         private void attributeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string[] inputs = { "Name" };
-            string[] outputs = Prompt.ShowDialog(inputs, "New Attribute", Attribute.color);
+            string[]? outputs = Prompt.ShowDialog(inputs, "New Attribute", Attribute.color);
 
             if (outputs == null)
                 return;
 
-            foreach (AttributedDisplayable selected in Filter<AttributedDisplayable>(selected))
-                selected.AddAttribute(outputs[0]);
+            string attribute = outputs[0];
+            List<AttributedDisplayable> displayables = Filter<AttributedDisplayable>(selected);
+
+            foreach (AttributedDisplayable selected in displayables)
+                selected.AddAttribute(attribute);
         }
         #endregion
         #region other menu strip buttons
@@ -298,7 +336,6 @@ namespace ERD_drawer
             for (int antiInfinityLoop = 0; antiInfinityLoop < 1000 && selected.Count > 0; antiInfinityLoop++)
             {
                 Displayable.Displayables.Find(d => d.Id == selected[0]).Delete();
-                selected.RemoveAt(0);
             }
         }
 
@@ -323,7 +360,7 @@ namespace ERD_drawer
                 return;
 
             foreach (int displayable in selected)
-                Displayable.Displayables.Find(d => selected.Contains(displayable)).Name = outputs[0];
+                Displayable.Displayables.Find(d => d.Id == displayable).Name = outputs[0];
         }
 
         private void allToolStripMenuItem_Click_1(object sender, EventArgs e)
@@ -339,53 +376,21 @@ namespace ERD_drawer
 
             if (relationships.Count == 0)
             {
-                MessageBox.Show("No relationships to change quantities!");
+                MessageBox.Show("No relationships selected to change quantities!");
                 return;
             }
-
-            string[] inputs = { "L Bounds", "R Bounds" };
-            string[] outputs = Prompt.ShowDialog(inputs, "Rename", Color.White);
-
-            if (outputs == null)
-                return;
 
             foreach (Relationship relationship in relationships)
             {
-                relationship.LeftQuantity = outputs[0];
-                relationship.RightQuantity = outputs[1];
+                string[] inputs = relationship.Links.Select(link => link.Entity.Name + "'s Quantity").ToArray();
+                string[]? outputs = Prompt.ShowDialog(inputs, "Change Quantities", Color.White);
+
+                if (outputs == null)
+                    return;
+
+                for (int i = 0; i < relationship.Links.Count; i++)
+                    relationship.Links[i].Quantity = outputs[i];
             }
-        }
-        #endregion
-
-        private List<T> Filter<T>(List<int> displayableIds) where T : Displayable
-        {
-            return Displayable.Displayables.Where(displayable => displayableIds.Contains(displayable.Id)).Select(d => d as T).Where(s => s != null).Select(d => d!).ToList();
-        }
-
-        private void Select(Displayable displayable)
-        {
-            selected.Clear();
-            selected.Add(displayable.Id);
-        }
-
-        private Displayable? CheckCollisions(int x, int y)
-        {
-            foreach (Displayable displayable in Displayable.Displayables)
-                if (displayable.CheckCollision(x, y))
-                    return displayable;
-
-            return null;
-        }
-
-        private List<Displayable> CheckCollisions(Rectangle area)
-        {
-            List<Displayable> selected = new();
-
-            foreach (Displayable displayable in Displayable.Displayables)
-                if (displayable.CheckCollision(area))
-                    selected.Add(displayable);
-
-            return selected;
         }
 
         private void noneToolStripMenuItem_Click(object sender, EventArgs e)
@@ -410,17 +415,62 @@ namespace ERD_drawer
 
         private void saveAsjpgToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            SaveImage(ImageFormat.Jpeg);
+        }
+
+        private void saveAspngToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveImage(ImageFormat.Png);
+        }
+        #endregion
+        #region collision detection
+
+        private Displayable? CheckCollisions(int x, int y)
+        {
+            foreach (Displayable displayable in Displayable.Displayables)
+                if (displayable.CheckCollision(x, y))
+                    return displayable;
+
+            return null;
+        }
+
+        private List<Displayable> CheckCollisions(Rectangle area)
+        {
+            List<Displayable> selected = new();
+
+            foreach (Displayable displayable in Displayable.Displayables)
+                if (displayable.CheckCollision(area))
+                    selected.Add(displayable);
+
+            return selected;
+        }
+        #endregion
+        private List<T> Filter<T>(List<int> displayableIds) where T : Displayable
+        {
+            return Displayable.Displayables.Where(displayable => displayableIds.Contains(displayable.Id)).Select(d => d as T).Where(s => s != null).Select(d => d!).ToList();
+        }
+
+        private void Select(Displayable displayable)
+        {
+            selected.Clear();
+            selected.Add(displayable.Id);
+        }
+        private void SaveImage(ImageFormat format)
+        {
             if (saveImageFileDialog.ShowDialog() != DialogResult.OK)
                 return;
+
             Bitmap bitmap = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             pictureBox1.DrawToBitmap(bitmap, pictureBox1.ClientRectangle);
 
             pictureBox1.Image = bitmap;  //this makes your changes visible
 
             string path = saveImageFileDialog.FileName;
-            pictureBox1.Image.Save(path, ImageFormat.Jpeg);
+            pictureBox1.Image.Save(path, format);
 
             pictureBox1.Image = null;
         }
+
+        
     }
 }

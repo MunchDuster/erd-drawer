@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "\\\\192.168.1.106\\ooga\\Win Forms\\ERD drawer\\ERD drawer\\ERD drawer.csproj",
+      "projectUniqueName": "C:\\Users\\malac\\Desktop\\Win Forms\\ERD drawer\\ERD drawer\\ERD drawer.csproj",
       "projectName": "ERD drawer",
-      "projectPath": "\\\\192.168.1.106\\ooga\\Win Forms\\ERD drawer\\ERD drawer\\ERD drawer.csproj",
+      "projectPath": "C:\\Users\\malac\\Desktop\\Win Forms\\ERD drawer\\ERD drawer\\ERD drawer.csproj",
       "packagesPath": "C:\\Users\\malac\\.nuget\\packages\\",
-      "outputPath": "\\\\192.168.1.106\\ooga\\Win Forms\\ERD drawer\\ERD drawer\\obj\\",
+      "outputPath": "C:\\Users\\malac\\Desktop\\Win Forms\\ERD drawer\\ERD drawer\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

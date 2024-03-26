@@ -30,3 +30,4 @@ C:\Users\malac\Desktop\Win Forms\ERD drawer\ERD drawer\obj\Debug\net8.0-windows\
 \\192.168.1.106\ooga\Win Forms\ERD drawer\ERD drawer\obj\Debug\net8.0-windows\ERD drawer.pdb
 \\192.168.1.106\ooga\Win Forms\ERD drawer\ERD drawer\obj\Debug\net8.0-windows\ERD drawer.genruntimeconfig.cache
 \\192.168.1.106\ooga\Win Forms\ERD drawer\ERD drawer\obj\Debug\net8.0-windows\ref\ERD drawer.dll
+C:\Users\malac\Desktop\Win Forms\ERD drawer\ERD drawer\obj\Debug\net8.0-windows\ERD drawer.sourcelink.json

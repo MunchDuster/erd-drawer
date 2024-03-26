@@ -37,7 +37,7 @@ namespace ERD_drawer
             DrawName(isKey);
 
             
-            DrawSplitLine(this, parent);
+            SplitLine.DrawVerticalCornerLine(parent, this);
         }
 
         public override void Delete()

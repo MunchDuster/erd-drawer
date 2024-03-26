@@ -4,10 +4,11 @@ namespace ERD_drawer
 {
     public static class Prompt
     {
-        private const int totalWidth = 500;
+        private const int totalWidth = 800;
         private const int padding = 50;
         private const int itemSpacing = 50;
         private const int itemHeight = 40;
+        private const int labelPadding = 20;
 
         private const int itemPadding = (itemSpacing - itemHeight) / 2;
 
@@ -26,8 +27,8 @@ namespace ERD_drawer
 
             int totalHeight = padding + (inputs.Length + 1) * itemSpacing;
 
-            Form prompt = new Form()
-            {
+            Form prompt = new() {
+                Font = Displayable.font,
                 Width = totalWidth,
                 Height = totalHeight,
                 FormBorderStyle = FormBorderStyle.FixedDialog,
@@ -37,8 +38,14 @@ namespace ERD_drawer
             totalHeight -= 50;
 
             // confirm button
-            int buttonTop = totalHeight - itemSpacing;
-            Button confirmation = new Button() { Text = "Ok", Left = totalWidth / 2 - 50, Width = 100, Height = itemHeight, Top = buttonTop, DialogResult = DialogResult.OK };
+            Button confirmation = new() { 
+                Text = "Ok", 
+                Left = totalWidth / 2 - 50, 
+                Width = 100, 
+                Height = itemHeight, 
+                Top = totalHeight - itemSpacing, 
+                DialogResult = DialogResult.OK 
+            };
             confirmation.Click += (sender, e) => { prompt.Close(); };
             prompt.Controls.Add(confirmation);
             prompt.AcceptButton = confirmation;
@@ -50,18 +57,35 @@ namespace ERD_drawer
                     prompt.Close();
             }
 
+            int CalcTop(int i) => i * itemSpacing + (i + 1) * itemPadding;
+
+            int widestWidth = 0;
+
+            int[] labelWidths = new int[inputs.Length];
+            for (int i =0; i < inputs.Length; i++)
+            {
+                labelWidths[i] = Displayable.GetStringWidth(inputs[i]) + labelPadding;
+                Label textLabel = new Label() { 
+                    Left = 20, 
+                    Top = CalcTop(i), 
+                    Width = labelWidths[i], 
+                    Text = inputs[i]
+                };
+                prompt.Controls.Add(textLabel);
+            }
+
             // inputs
             TextBox[] textBoxes = new TextBox[inputs.Length];
             for (int i = 0; i < inputs.Length; i++)
             {
-                int top = i * itemSpacing + (i + 1) * itemPadding;
-                
-                textBoxes[i] = new TextBox() { Left = 100, Top = top, Width = 350 };
+                int left = labelWidths[i] + 30;
+                textBoxes[i] = new TextBox() { 
+                    Left = left, 
+                    Top = CalcTop(i), 
+                    Width = totalWidth - (left + 60)
+                };
                 textBoxes[i].KeyDown += ExitIfEscapePressed;
                 prompt.Controls.Add(textBoxes[i]);
-                
-                Label textLabel = new Label() { Left = 20, Top = top, Width = 70, Text = inputs[i] };
-                prompt.Controls.Add(textLabel);
             }
 
             textBoxes[0].Select();

@@ -1,36 +1,30 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "\\\\192.168.1.106\\ooga\\Win Forms\\ERD drawer\\",
+  "WorkspaceRootPath": "C:\\Users\\malac\\Desktop\\Win Forms\\ERD drawer\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{1C434923-B278-418B-A537-92626E57E67C}|ERD drawer\\ERD drawer.csproj|\\\\192.168.1.106\\ooga\\win forms\\erd drawer\\erd drawer\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1C434923-B278-418B-A537-92626E57E67C}|ERD drawer\\ERD drawer.csproj|C:\\Users\\malac\\Desktop\\Win Forms\\ERD drawer\\erd drawer\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1C434923-B278-418B-A537-92626E57E67C}|ERD drawer\\ERD drawer.csproj|solutionrelative:erd drawer\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1C434923-B278-418B-A537-92626E57E67C}|ERD drawer\\ERD drawer.csproj|\\\\192.168.1.106\\ooga\\Win Forms\\ERD drawer\\erd drawer\\attribute.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1C434923-B278-418B-A537-92626E57E67C}|ERD drawer\\ERD drawer.csproj|C:\\Users\\malac\\Desktop\\Win Forms\\ERD drawer\\erd drawer\\relationship.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1C434923-B278-418B-A537-92626E57E67C}|ERD drawer\\ERD drawer.csproj|solutionrelative:erd drawer\\relationship.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1C434923-B278-418B-A537-92626E57E67C}|ERD drawer\\ERD drawer.csproj|\\\\192.168.1.106\\ooga\\Win Forms\\ERD drawer\\erd drawer\\attributeddisplayable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1C434923-B278-418B-A537-92626E57E67C}|ERD drawer\\ERD drawer.csproj|C:\\Users\\malac\\Desktop\\Win Forms\\ERD drawer\\erd drawer\\splitline.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1C434923-B278-418B-A537-92626E57E67C}|ERD drawer\\ERD drawer.csproj|solutionrelative:erd drawer\\splitline.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1C434923-B278-418B-A537-92626E57E67C}|ERD drawer\\ERD drawer.csproj|\\\\192.168.1.106\\ooga\\Win Forms\\ERD drawer\\erd drawer\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{1C434923-B278-418B-A537-92626E57E67C}|ERD drawer\\ERD drawer.csproj|C:\\Users\\malac\\Desktop\\Win Forms\\ERD drawer\\erd drawer\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{1C434923-B278-418B-A537-92626E57E67C}|ERD drawer\\ERD drawer.csproj|solutionrelative:erd drawer\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1C434923-B278-418B-A537-92626E57E67C}|ERD drawer\\ERD drawer.csproj|\\\\192.168.1.106\\ooga\\win forms\\erd drawer\\erd drawer\\form1.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1C434923-B278-418B-A537-92626E57E67C}|ERD drawer\\ERD drawer.csproj|C:\\Users\\malac\\Desktop\\Win Forms\\ERD drawer\\erd drawer\\displayable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1C434923-B278-418B-A537-92626E57E67C}|ERD drawer\\ERD drawer.csproj|solutionrelative:erd drawer\\displayable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1C434923-B278-418B-A537-92626E57E67C}|ERD drawer\\ERD drawer.csproj|\\\\192.168.1.106\\ooga\\Win Forms\\ERD drawer\\erd drawer\\relationship.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1C434923-B278-418B-A537-92626E57E67C}|ERD drawer\\ERD drawer.csproj|\\\\192.168.1.106\\ooga\\Win Forms\\ERD drawer\\erd drawer\\displayable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1C434923-B278-418B-A537-92626E57E67C}|ERD drawer\\ERD drawer.csproj|\\\\192.168.1.106\\ooga\\Win Forms\\ERD drawer\\erd drawer\\prompt.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1C434923-B278-418B-A537-92626E57E67C}|ERD drawer\\ERD drawer.csproj|\\\\192.168.1.106\\ooga\\Win Forms\\ERD drawer\\erd drawer\\filesystem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1C434923-B278-418B-A537-92626E57E67C}|ERD drawer\\ERD drawer.csproj|\\\\192.168.1.106\\ooga\\Win Forms\\ERD drawer\\erd drawer\\entity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1C434923-B278-418B-A537-92626E57E67C}|ERD drawer\\ERD drawer.csproj|C:\\Users\\malac\\Desktop\\Win Forms\\ERD drawer\\erd drawer\\attribute.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1C434923-B278-418B-A537-92626E57E67C}|ERD drawer\\ERD drawer.csproj|solutionrelative:erd drawer\\attribute.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -40,7 +34,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -48,124 +42,80 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Form1.Designer.cs",
-              "DocumentMoniker": "\\\\192.168.1.106\\ooga\\Win Forms\\ERD drawer\\ERD drawer\\Form1.Designer.cs",
-              "RelativeDocumentMoniker": "ERD drawer\\Form1.Designer.cs",
-              "ToolTip": "\\\\192.168.1.106\\ooga\\Win Forms\\ERD drawer\\ERD drawer\\Form1.Designer.cs",
-              "RelativeToolTip": "ERD drawer\\Form1.Designer.cs",
-              "ViewState": "AQIAAN0AAAAAAAAAAAAEwO8AAAAPAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-16T07:02:15.425Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "FileSystem.cs",
-              "DocumentMoniker": "\\\\192.168.1.106\\ooga\\Win Forms\\ERD drawer\\ERD drawer\\FileSystem.cs",
-              "RelativeDocumentMoniker": "ERD drawer\\FileSystem.cs",
-              "ToolTip": "\\\\192.168.1.106\\ooga\\Win Forms\\ERD drawer\\ERD drawer\\FileSystem.cs",
-              "RelativeToolTip": "ERD drawer\\FileSystem.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAXAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-16T00:16:47.681Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "Entity.cs",
-              "DocumentMoniker": "\\\\192.168.1.106\\ooga\\Win Forms\\ERD drawer\\ERD drawer\\Entity.cs",
-              "RelativeDocumentMoniker": "ERD drawer\\Entity.cs",
-              "ToolTip": "\\\\192.168.1.106\\ooga\\Win Forms\\ERD drawer\\ERD drawer\\Entity.cs",
-              "RelativeToolTip": "ERD drawer\\Entity.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAEAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-15T23:18:05.608Z"
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "AttributedDisplayable.cs",
-              "DocumentMoniker": "\\\\192.168.1.106\\ooga\\Win Forms\\ERD drawer\\ERD drawer\\AttributedDisplayable.cs",
-              "RelativeDocumentMoniker": "ERD drawer\\AttributedDisplayable.cs",
-              "ToolTip": "\\\\192.168.1.106\\ooga\\Win Forms\\ERD drawer\\ERD drawer\\AttributedDisplayable.cs",
-              "RelativeToolTip": "ERD drawer\\AttributedDisplayable.cs",
-              "ViewState": "AQIAAAgAAAAAAAAAAAAgwAAAAAAMAAAA",
+              "Title": "SplitLine.cs",
+              "DocumentMoniker": "C:\\Users\\malac\\Desktop\\Win Forms\\ERD drawer\\ERD drawer\\SplitLine.cs",
+              "RelativeDocumentMoniker": "ERD drawer\\SplitLine.cs",
+              "ToolTip": "C:\\Users\\malac\\Desktop\\Win Forms\\ERD drawer\\ERD drawer\\SplitLine.cs",
+              "RelativeToolTip": "ERD drawer\\SplitLine.cs",
+              "ViewState": "AQIAAFcAAAAAAAAAAAAiwAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-15T22:02:52.122Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Form1.cs [Design]",
-              "DocumentMoniker": "\\\\192.168.1.106\\ooga\\Win Forms\\ERD drawer\\ERD drawer\\Form1.cs",
-              "RelativeDocumentMoniker": "ERD drawer\\Form1.cs",
-              "ToolTip": "\\\\192.168.1.106\\ooga\\Win Forms\\ERD drawer\\ERD drawer\\Form1.cs [Design]",
-              "RelativeToolTip": "ERD drawer\\Form1.cs [Design]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-15T21:32:37.886Z",
-              "EditorCaption": " [Design]"
+              "WhenOpened": "2024-03-23T08:58:20.095Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "Attribute.cs",
-              "DocumentMoniker": "\\\\192.168.1.106\\ooga\\Win Forms\\ERD drawer\\ERD drawer\\Attribute.cs",
-              "RelativeDocumentMoniker": "ERD drawer\\Attribute.cs",
-              "ToolTip": "\\\\192.168.1.106\\ooga\\Win Forms\\ERD drawer\\ERD drawer\\Attribute.cs",
-              "RelativeToolTip": "ERD drawer\\Attribute.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAEAAAAlAAAA",
+              "Title": "Relationship.cs",
+              "DocumentMoniker": "C:\\Users\\malac\\Desktop\\Win Forms\\ERD drawer\\ERD drawer\\Relationship.cs",
+              "RelativeDocumentMoniker": "ERD drawer\\Relationship.cs",
+              "ToolTip": "C:\\Users\\malac\\Desktop\\Win Forms\\ERD drawer\\ERD drawer\\Relationship.cs",
+              "RelativeToolTip": "ERD drawer\\Relationship.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAZAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-15T10:52:30.969Z"
+              "WhenOpened": "2024-03-19T06:41:33.103Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "Form1.cs",
-              "DocumentMoniker": "\\\\192.168.1.106\\ooga\\Win Forms\\ERD drawer\\ERD drawer\\Form1.cs",
+              "DocumentMoniker": "C:\\Users\\malac\\Desktop\\Win Forms\\ERD drawer\\ERD drawer\\Form1.cs",
               "RelativeDocumentMoniker": "ERD drawer\\Form1.cs",
-              "ToolTip": "\\\\192.168.1.106\\ooga\\Win Forms\\ERD drawer\\ERD drawer\\Form1.cs",
+              "ToolTip": "C:\\Users\\malac\\Desktop\\Win Forms\\ERD drawer\\ERD drawer\\Form1.cs",
               "RelativeToolTip": "ERD drawer\\Form1.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAFAAAA",
+              "ViewState": "AQIAAHMBAAAAAAAAAAAywKcBAAAJAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-15T10:34:38.758Z",
+              "WhenOpened": "2024-03-19T06:37:47.313Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "Prompt.cs",
-              "DocumentMoniker": "\\\\192.168.1.106\\ooga\\Win Forms\\ERD drawer\\ERD drawer\\Prompt.cs",
-              "RelativeDocumentMoniker": "ERD drawer\\Prompt.cs",
-              "ToolTip": "\\\\192.168.1.106\\ooga\\Win Forms\\ERD drawer\\ERD drawer\\Prompt.cs",
-              "RelativeToolTip": "ERD drawer\\Prompt.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABEAAAAfAAAA",
+              "DocumentIndex": 3,
+              "Title": "Form1.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\malac\\Desktop\\Win Forms\\ERD drawer\\ERD drawer\\Form1.cs",
+              "RelativeDocumentMoniker": "ERD drawer\\Form1.cs",
+              "ToolTip": "C:\\Users\\malac\\Desktop\\Win Forms\\ERD drawer\\ERD drawer\\Form1.cs [Design]",
+              "RelativeToolTip": "ERD drawer\\Form1.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-15T06:25:28.242Z"
+              "WhenOpened": "2024-03-19T06:36:57.32Z",
+              "EditorCaption": " [Design]"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 4,
               "Title": "Displayable.cs",
-              "DocumentMoniker": "\\\\192.168.1.106\\ooga\\Win Forms\\ERD drawer\\ERD drawer\\Displayable.cs",
+              "DocumentMoniker": "C:\\Users\\malac\\Desktop\\Win Forms\\ERD drawer\\ERD drawer\\Displayable.cs",
               "RelativeDocumentMoniker": "ERD drawer\\Displayable.cs",
-              "ToolTip": "\\\\192.168.1.106\\ooga\\Win Forms\\ERD drawer\\ERD drawer\\Displayable.cs",
+              "ToolTip": "C:\\Users\\malac\\Desktop\\Win Forms\\ERD drawer\\ERD drawer\\Displayable.cs",
               "RelativeToolTip": "ERD drawer\\Displayable.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAZAAAA",
+              "ViewState": "AQIAAFcAAAAAAAAAAAA3wGoAAAAmAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-11T09:18:18.578Z"
+              "WhenOpened": "2024-03-19T06:22:57.57Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
-              "Title": "Relationship.cs",
-              "DocumentMoniker": "\\\\192.168.1.106\\ooga\\Win Forms\\ERD drawer\\ERD drawer\\Relationship.cs",
-              "RelativeDocumentMoniker": "ERD drawer\\Relationship.cs",
-              "ToolTip": "\\\\192.168.1.106\\ooga\\Win Forms\\ERD drawer\\ERD drawer\\Relationship.cs",
-              "RelativeToolTip": "ERD drawer\\Relationship.cs",
-              "ViewState": "AQIAAIYAAAAAAAAAAAA9wEoAAAArAAAA",
+              "Title": "Attribute.cs",
+              "DocumentMoniker": "C:\\Users\\malac\\Desktop\\Win Forms\\ERD drawer\\ERD drawer\\Attribute.cs",
+              "RelativeDocumentMoniker": "ERD drawer\\Attribute.cs",
+              "ToolTip": "C:\\Users\\malac\\Desktop\\Win Forms\\ERD drawer\\ERD drawer\\Attribute.cs",
+              "RelativeToolTip": "ERD drawer\\Attribute.cs",
+              "ViewState": "AQIAABAAAAAAAAAAAAAzwBcAAAAfAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-11T03:37:22.998Z"
+              "WhenOpened": "2024-03-19T06:22:38.009Z",
+              "EditorCaption": ""
             }
           ]
         }
