@@ -19,12 +19,20 @@ I tried using some other tools (ms paint, lucid chart, physical pen & paper) and
 <h2>Todo list</h2>
 There are still things I'd like to add:
 
-- [ ] Line improvements
-  - [ ] Ability to connect lines to object vertically (currently they only connect to the sides)
-  - [ ] Lines that conenct to the same object to space along the side (currently they overlap into the exact middle of the side of the object)
-  - [ ] Smarter auto-line connections (primarily when horizontally connecting items that overlap X coordinate
+- [ ] Better clicking and dragging
+  - [ ] (bug to be fixed) Box dragging which ends over a displayable selects that displayble as well
+  - [ ] Clicking will reguire holding shift to select many items at once
+- [ ] Rename and change relationship quantities will have the current values in the prompt
 - [ ] Ability to customise settings without needing to edit source code
   - [ ] Dark theme
   - [ ] Font selection
   - [ ] Spacing and sizing options
 - [ ] Easter-eggs
+- [X] Relationship improvements
+  - [X] Relationships can have from 1 to 4 links now
+  - [X] Lines from a relationship to its links calculate which side is best to come from and don't pick the same side as eachother.
+- [X] Line improvements
+  - [X] Ability to connect lines to object vertically (currently they only connect to the sides)
+  - [X] Lines that conenct to the same object to space along the side (currently they overlap into the exact middle of the side of the object)
+  - [X] Smarter auto-line connections (primarily when horizontally connecting items that overlap X coordinate
+
