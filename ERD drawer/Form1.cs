@@ -13,6 +13,7 @@ namespace ERD_drawer
         private Data data;
 
         public static List<int> selected = new();
+        public static bool ShiftPresed => (ModifierKeys & Keys.Shift) == Keys.Shift;
 
         // for moving around the world 🌍
         private bool worldDragging = false;
@@ -144,6 +145,11 @@ namespace ERD_drawer
             {
                 selected.Remove(clicked.Id);
                 return;
+            }
+
+            if (!ShiftPresed)
+            {
+                selected.Clear();
             }
 
             selected.Add(clicked.Id);
