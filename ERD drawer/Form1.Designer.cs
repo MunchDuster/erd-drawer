@@ -34,6 +34,9 @@
             fileToolStripMenuItem = new ToolStripMenuItem();
             openToolStripMenuItem = new ToolStripMenuItem();
             saveToolStripMenuItem = new ToolStripMenuItem();
+            saveAsImageToolStripMenuItem = new ToolStripMenuItem();
+            saveAsJpgToolStripMenuItem1 = new ToolStripMenuItem();
+            saveAsPngToolStripMenuItem1 = new ToolStripMenuItem();
             createToolStripMenuItem = new ToolStripMenuItem();
             createToolStripMenuItem1 = new ToolStripMenuItem();
             entityToolStripMenuItem = new ToolStripMenuItem();
@@ -50,13 +53,19 @@
             allToolStripMenuItem = new ToolStripMenuItem();
             noneToolStripMenuItem = new ToolStripMenuItem();
             helpToolStripMenuItem = new ToolStripMenuItem();
-            saveImageToolStripMenuItem = new ToolStripMenuItem();
-            saveAsjpgToolStripMenuItem = new ToolStripMenuItem();
+            settingsToolStripMenuItem = new ToolStripMenuItem();
+            fontSettingsToolStripMenuItem = new ToolStripMenuItem();
+            fontFamilyToolStripMenuItem = new ToolStripMenuItem();
+            fontSizeToolStripMenuItem = new ToolStripMenuItem();
+            increaseFontSpaceWidthToolStripMenuItem = new ToolStripMenuItem();
+            increaseFontSpaceHeightToolStripMenuItem = new ToolStripMenuItem();
+            decreaseFontSpaceWidthToolStripMenuItem = new ToolStripMenuItem();
+            decreaseFontSpaceHeightToolStripMenuItem = new ToolStripMenuItem();
+            displayableSettingsToolStripMenuItem = new ToolStripMenuItem();
             timer1 = new System.Windows.Forms.Timer(components);
             openFileDialog1 = new OpenFileDialog();
             saveFileDialog1 = new SaveFileDialog();
             saveImageFileDialog = new SaveFileDialog();
-            saveAspngToolStripMenuItem = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             menuStrip1.SuspendLayout();
             SuspendLayout();
@@ -80,7 +89,7 @@
             // menuStrip1
             // 
             menuStrip1.ImageScalingSize = new Size(24, 24);
-            menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, createToolStripMenuItem, selectToolStripMenuItem, helpToolStripMenuItem, saveImageToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, createToolStripMenuItem, selectToolStripMenuItem, helpToolStripMenuItem, settingsToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Size = new Size(2279, 33);
@@ -89,7 +98,7 @@
             // 
             // fileToolStripMenuItem
             // 
-            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { openToolStripMenuItem, saveToolStripMenuItem });
+            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { openToolStripMenuItem, saveToolStripMenuItem, saveAsImageToolStripMenuItem });
             fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             fileToolStripMenuItem.Size = new Size(54, 29);
             fileToolStripMenuItem.Text = "File";
@@ -98,17 +107,40 @@
             // 
             openToolStripMenuItem.Name = "openToolStripMenuItem";
             openToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.O;
-            openToolStripMenuItem.Size = new Size(235, 34);
-            openToolStripMenuItem.Text = "Open...";
+            openToolStripMenuItem.Size = new Size(273, 34);
+            openToolStripMenuItem.Text = "Open json...";
             openToolStripMenuItem.Click += openToolStripMenuItem_Click;
             // 
             // saveToolStripMenuItem
             // 
             saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             saveToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.S;
-            saveToolStripMenuItem.Size = new Size(235, 34);
-            saveToolStripMenuItem.Text = "Save...";
+            saveToolStripMenuItem.Size = new Size(273, 34);
+            saveToolStripMenuItem.Text = "Save as json";
             saveToolStripMenuItem.Click += saveToolStripMenuItem_Click;
+            // 
+            // saveAsImageToolStripMenuItem
+            // 
+            saveAsImageToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { saveAsJpgToolStripMenuItem1, saveAsPngToolStripMenuItem1 });
+            saveAsImageToolStripMenuItem.Name = "saveAsImageToolStripMenuItem";
+            saveAsImageToolStripMenuItem.Size = new Size(273, 34);
+            saveAsImageToolStripMenuItem.Text = "Save as image";
+            // 
+            // saveAsJpgToolStripMenuItem1
+            // 
+            saveAsJpgToolStripMenuItem1.Name = "saveAsJpgToolStripMenuItem1";
+            saveAsJpgToolStripMenuItem1.ShortcutKeys = Keys.Control | Keys.Shift | Keys.J;
+            saveAsJpgToolStripMenuItem1.Size = new Size(319, 34);
+            saveAsJpgToolStripMenuItem1.Text = "Save as jpg";
+            saveAsJpgToolStripMenuItem1.Click += saveAsJpgToolStripMenuItem1_Click;
+            // 
+            // saveAsPngToolStripMenuItem1
+            // 
+            saveAsPngToolStripMenuItem1.Name = "saveAsPngToolStripMenuItem1";
+            saveAsPngToolStripMenuItem1.ShortcutKeys = Keys.Control | Keys.Shift | Keys.P;
+            saveAsPngToolStripMenuItem1.Size = new Size(319, 34);
+            saveAsPngToolStripMenuItem1.Text = "Save as png";
+            saveAsPngToolStripMenuItem1.Click += saveAsPngToolStripMenuItem1_Click;
             // 
             // createToolStripMenuItem
             // 
@@ -232,25 +264,78 @@
             helpToolStripMenuItem.Text = "Help";
             helpToolStripMenuItem.Click += helpToolStripMenuItem_Click;
             // 
-            // saveImageToolStripMenuItem
+            // settingsToolStripMenuItem
             // 
-            saveImageToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { saveAsjpgToolStripMenuItem, saveAspngToolStripMenuItem });
-            saveImageToolStripMenuItem.Name = "saveImageToolStripMenuItem";
-            saveImageToolStripMenuItem.Size = new Size(78, 29);
-            saveImageToolStripMenuItem.Text = "Image";
+            settingsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { fontSettingsToolStripMenuItem, displayableSettingsToolStripMenuItem });
+            settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
+            settingsToolStripMenuItem.Size = new Size(92, 29);
+            settingsToolStripMenuItem.Text = "Settings";
             // 
-            // saveAsjpgToolStripMenuItem
+            // fontSettingsToolStripMenuItem
             // 
-            saveAsjpgToolStripMenuItem.Name = "saveAsjpgToolStripMenuItem";
-            saveAsjpgToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.Shift | Keys.S;
-            saveAsjpgToolStripMenuItem.Size = new Size(317, 34);
-            saveAsjpgToolStripMenuItem.Text = "Save as .jpg";
-            saveAsjpgToolStripMenuItem.Click += saveAsjpgToolStripMenuItem_Click;
+            fontSettingsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { fontFamilyToolStripMenuItem, fontSizeToolStripMenuItem, increaseFontSpaceWidthToolStripMenuItem, increaseFontSpaceHeightToolStripMenuItem, decreaseFontSpaceWidthToolStripMenuItem, decreaseFontSpaceHeightToolStripMenuItem });
+            fontSettingsToolStripMenuItem.Name = "fontSettingsToolStripMenuItem";
+            fontSettingsToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.Shift | Keys.F;
+            fontSettingsToolStripMenuItem.Size = new Size(384, 34);
+            fontSettingsToolStripMenuItem.Text = "Font Settings";
+            // 
+            // fontFamilyToolStripMenuItem
+            // 
+            fontFamilyToolStripMenuItem.Name = "fontFamilyToolStripMenuItem";
+            fontFamilyToolStripMenuItem.Size = new Size(505, 34);
+            fontFamilyToolStripMenuItem.Text = "Font Family";
+            fontFamilyToolStripMenuItem.Click += fontFamilyToolStripMenuItem_Click;
+            // 
+            // fontSizeToolStripMenuItem
+            // 
+            fontSizeToolStripMenuItem.Name = "fontSizeToolStripMenuItem";
+            fontSizeToolStripMenuItem.Size = new Size(505, 34);
+            fontSizeToolStripMenuItem.Text = "Font Size";
+            fontSizeToolStripMenuItem.Click += fontSizeToolStripMenuItem_Click;
+            // 
+            // increaseFontSpaceWidthToolStripMenuItem
+            // 
+            increaseFontSpaceWidthToolStripMenuItem.Name = "increaseFontSpaceWidthToolStripMenuItem";
+            increaseFontSpaceWidthToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.Shift | Keys.NumPad6;
+            increaseFontSpaceWidthToolStripMenuItem.Size = new Size(505, 34);
+            increaseFontSpaceWidthToolStripMenuItem.Text = "Increase Font space width";
+            increaseFontSpaceWidthToolStripMenuItem.Click += increaseFontSpaceWidthToolStripMenuItem_Click;
+            // 
+            // increaseFontSpaceHeightToolStripMenuItem
+            // 
+            increaseFontSpaceHeightToolStripMenuItem.Name = "increaseFontSpaceHeightToolStripMenuItem";
+            increaseFontSpaceHeightToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.Shift | Keys.NumPad2;
+            increaseFontSpaceHeightToolStripMenuItem.Size = new Size(505, 34);
+            increaseFontSpaceHeightToolStripMenuItem.Text = "Increase Font space height";
+            increaseFontSpaceHeightToolStripMenuItem.Click += increaseFontSpaceHeightToolStripMenuItem_Click;
+            // 
+            // decreaseFontSpaceWidthToolStripMenuItem
+            // 
+            decreaseFontSpaceWidthToolStripMenuItem.Name = "decreaseFontSpaceWidthToolStripMenuItem";
+            decreaseFontSpaceWidthToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.Shift | Keys.NumPad4;
+            decreaseFontSpaceWidthToolStripMenuItem.Size = new Size(505, 34);
+            decreaseFontSpaceWidthToolStripMenuItem.Text = "Decrease font space width";
+            decreaseFontSpaceWidthToolStripMenuItem.Click += decreaseFontSpaceWidthToolStripMenuItem_Click;
+            // 
+            // decreaseFontSpaceHeightToolStripMenuItem
+            // 
+            decreaseFontSpaceHeightToolStripMenuItem.Name = "decreaseFontSpaceHeightToolStripMenuItem";
+            decreaseFontSpaceHeightToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.Shift | Keys.NumPad8;
+            decreaseFontSpaceHeightToolStripMenuItem.Size = new Size(505, 34);
+            decreaseFontSpaceHeightToolStripMenuItem.Text = "Decrease font space height";
+            decreaseFontSpaceHeightToolStripMenuItem.Click += decreaseFontSpaceHeightToolStripMenuItem_Click;
+            // 
+            // displayableSettingsToolStripMenuItem
+            // 
+            displayableSettingsToolStripMenuItem.Name = "displayableSettingsToolStripMenuItem";
+            displayableSettingsToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.Shift | Keys.D;
+            displayableSettingsToolStripMenuItem.Size = new Size(384, 34);
+            displayableSettingsToolStripMenuItem.Text = "Displayable settings";
             // 
             // timer1
             // 
             timer1.Enabled = true;
-            timer1.Interval = 1;
+            timer1.Interval = 10;
             timer1.Tick += timer1_Tick;
             // 
             // openFileDialog1
@@ -267,13 +352,6 @@
             // 
             saveImageFileDialog.FileName = "entity_relationship_diagram";
             saveImageFileDialog.Filter = "JPG|*.jpg";
-            // 
-            // saveAspngToolStripMenuItem
-            // 
-            saveAspngToolStripMenuItem.Name = "saveAspngToolStripMenuItem";
-            saveAspngToolStripMenuItem.Size = new Size(317, 34);
-            saveAspngToolStripMenuItem.Text = "Save as .png";
-            saveAspngToolStripMenuItem.Click += saveAspngToolStripMenuItem_Click;
             // 
             // Form1
             // 
@@ -319,9 +397,18 @@
         private ToolStripMenuItem allToolStripMenuItem;
         private ToolStripMenuItem noneToolStripMenuItem;
         private ToolStripMenuItem helpToolStripMenuItem;
-        private ToolStripMenuItem saveImageToolStripMenuItem;
         private SaveFileDialog saveImageFileDialog;
-        private ToolStripMenuItem saveAsjpgToolStripMenuItem;
-        private ToolStripMenuItem saveAspngToolStripMenuItem;
+        private ToolStripMenuItem settingsToolStripMenuItem;
+        private ToolStripMenuItem fontSettingsToolStripMenuItem;
+        private ToolStripMenuItem displayableSettingsToolStripMenuItem;
+        private ToolStripMenuItem fontFamilyToolStripMenuItem;
+        private ToolStripMenuItem fontSizeToolStripMenuItem;
+        private ToolStripMenuItem saveAsImageToolStripMenuItem;
+        private ToolStripMenuItem saveAsJpgToolStripMenuItem1;
+        private ToolStripMenuItem saveAsPngToolStripMenuItem1;
+        private ToolStripMenuItem increaseFontSpaceWidthToolStripMenuItem;
+        private ToolStripMenuItem increaseFontSpaceHeightToolStripMenuItem;
+        private ToolStripMenuItem decreaseFontSpaceWidthToolStripMenuItem;
+        private ToolStripMenuItem decreaseFontSpaceHeightToolStripMenuItem;
     }
 }

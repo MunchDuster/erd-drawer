@@ -1,24 +1,25 @@
 ﻿using System.Diagnostics;
-using System.Drawing;
 using System.Drawing.Imaging;
-using System.Linq;
-using System.Windows.Forms;
 
 namespace ERD_drawer
 {
     public partial class Form1 : Form
     {
-        private string fileName;
+        private const string emptyQauntity = "()";
+        private string? fileName;
 
-        private Data data;
+        private Data? data;
 
         public static List<int> selected = new();
         public static bool ShiftPresed => (ModifierKeys & Keys.Shift) == Keys.Shift;
 
-        // for moving around the world 🌍
+        // for moving around the world
         private bool worldDragging = false;
         private bool selectedDragging = false;
+
+        // for checking whether box selecting
         private bool boxSelecting = false;
+        private bool hasActuallyStartBoxSelecting = false; // to differentiate between box selecting and a click
 
         // for box selecting
         private static readonly Color boxSelectFill = Color.FromArgb(50, 0, 0, 255);
@@ -34,11 +35,9 @@ namespace ERD_drawer
         public Form1()
         {
             InitializeComponent();
-            Displayable.font = new("Consolas", 10);
             Displayable.form1 = this;
-            SplitLine.pen = new(Color.Black);
-
-            pictureBox1_Paint(new object(), new PaintEventArgs(CreateGraphics(), new Rectangle()));
+            Settings.Apply();
+            pictureBox1_Paint(new object(), new PaintEventArgs(CreateGraphics(), new()));
         }
 
         #region saving and loading
@@ -51,13 +50,22 @@ namespace ERD_drawer
 
                 fileName = openFileDialog1.FileName;
 
-                data = FileSystem.LoadFile(fileName);
+                Data? loadedData = null;
 
+                if (!FileSystem.LoadFile(fileName, ref loadedData))
+                    return;
+
+                if (loadedData == null)
+                    return;
+
+                data = loadedData;
 
                 Entity.Entities = data.Entities;
                 Relationship.Relationships = data.Relationships;
 
                 Relationship.PopulateMap();
+
+                MoveToCentre();
             }
         }
 
@@ -74,6 +82,32 @@ namespace ERD_drawer
                 FileSystem.SaveFile(fileName, data);
             }
         }
+
+        private void saveAsJpgToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            SaveImage(ImageFormat.Jpeg);
+        }
+        private void saveAsPngToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            SaveImage(ImageFormat.Png);
+        }
+
+        private void SaveImage(ImageFormat format)
+        {
+            if (saveImageFileDialog.ShowDialog() != DialogResult.OK)
+                return;
+
+            Bitmap bitmap = new Bitmap(pictureBox1.Width, pictureBox1.Height);
+            pictureBox1.DrawToBitmap(bitmap, pictureBox1.ClientRectangle);
+
+            pictureBox1.Image = bitmap;  //this makes your changes visible
+
+            string path = saveImageFileDialog.FileName;
+            pictureBox1.Image.Save(path, format);
+
+            pictureBox1.Image = null;
+        }
+
         #endregion
         #region drawing
         private void timer1_Tick(object sender, EventArgs e)
@@ -128,10 +162,14 @@ namespace ERD_drawer
         {
             MouseEventArgs mouseEvent = (MouseEventArgs)e;
 
+
+            if (mouseEvent == null)
+                return;
+
             if (mouseEvent.Button != MouseButtons.Left)
                 return;
 
-            Displayable clicked = CheckCollisions(mouseEvent.X, mouseEvent.Y);
+            Displayable? clicked = CheckCollisions(mouseEvent.X, mouseEvent.Y);
             Debug.WriteLine(clicked == null ? "nothing" : clicked.Name);
 
 
@@ -182,17 +220,30 @@ namespace ERD_drawer
 
         private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
         {
+            if (hasActuallyStartBoxSelecting && !ShiftPresed)
+            {
+                selected.Clear();
+            }
+            
             boxSelecting = false;
             selectedDragging = false;
             worldDragging = false;
+            hasActuallyStartBoxSelecting = false;
 
-            selected = selected.Concat(tempBoxSelected).ToList();
-
+            foreach (int selectedID in tempBoxSelected)
+            {
+                if (!selected.Contains(selectedID))
+                {
+                    selected.Add(selectedID);
+                }
+            }
+            tempBoxSelected.Clear();
         }
         private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
         {
             int deltaX = e.X - lastX;
             int deltaY = e.Y - lastY;
+
 
             if (worldDragging || selectedDragging)
             {
@@ -208,14 +259,15 @@ namespace ERD_drawer
             }
             else if (boxSelecting)
             {
-                tempBoxSelected.Clear();
+                hasActuallyStartBoxSelecting = Math.Abs(boxCornerX - e.X) + Math.Abs(boxCornerY - e.Y) > 10; // to differentiate from clicking
+
+                    tempBoxSelected.Clear();
 
                 foreach (Displayable hightlighted in CheckCollisions(GetBoxSelect()))
                 {
                     if (!tempBoxSelected.Contains(hightlighted.Id))
                     {
                         tempBoxSelected.Add(hightlighted.Id);
-                        //hightlighted.IsSelected = true;
                     }
                 }
             }
@@ -246,8 +298,8 @@ namespace ERD_drawer
                 x += 500;
             }
 
-            string[] inputs = { "Name" };
-            string[] outputs = Prompt.ShowDialog(inputs, "New Entity", Entity.color);
+            Dictionary<string, string> inputs = new() { { "Name", "" } };
+            string[]? outputs = Prompt.ShowDialog(inputs, "New Entity", Entity.color);
 
             if (outputs == null)
                 return;
@@ -257,7 +309,7 @@ namespace ERD_drawer
 
         private void relationshipToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            List<Entity> entities = Filter<Entity>(selected);
+            List<Entity> entities = Displayable.Filter<Entity>(selected);
 
             if (entities.Count == 0)
             {
@@ -280,30 +332,30 @@ namespace ERD_drawer
                 y = entities.Sum(entity => entity.Y) / entities.Count;
             }
 
-            List<string> inputs = new(){ "Name" };
+            Dictionary<string, string> inputs = new() { { "Name", string.Empty } };
 
             if (isUnary)
             {
-                inputs.Add(entities[0].Name + "'s Quantity In");
-                inputs.Add(entities[0].Name + "'s Quantity Out");
+                inputs.Add(entities[0].Name + "'s Quantity In", emptyQauntity);
+                inputs.Add(entities[0].Name + "'s Quantity Out", emptyQauntity);
             }
             else
             {
                 string[] names = entities.Select(entity => entity.Name + "'s Quantity").ToArray();
                 foreach (string name in names)
                 {
-                    inputs.Add(name);
+                    inputs.Add(name, emptyQauntity);
                 }
             }
 
-            string[]? outputs = Prompt.ShowDialog(inputs.ToArray(), "New Relationship", Relationship.color);
+            string[]? outputs = Prompt.ShowDialog(inputs, "New Relationship", Relationship.color);
 
             if (outputs == null)
                 return; // cancelled creation prompt
 
             List<Relationship.RelationshipLink> links = new();
 
-            if(isUnary)
+            if (isUnary)
             {
                 links.Add(new(entities[0].Id, outputs[1]));
                 links.Add(new(entities[0].Id, outputs[2]));
@@ -322,51 +374,56 @@ namespace ERD_drawer
 
         private void attributeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string[] inputs = { "Name" };
+            Dictionary<string, string> inputs = new() { { "Name", string.Empty } };
             string[]? outputs = Prompt.ShowDialog(inputs, "New Attribute", Attribute.color);
 
             if (outputs == null)
                 return;
 
             string attribute = outputs[0];
-            List<AttributedDisplayable> displayables = Filter<AttributedDisplayable>(selected);
+            List<AttributedDisplayable> displayables = Displayable.Filter<AttributedDisplayable>(selected);
 
             foreach (AttributedDisplayable selected in displayables)
                 selected.AddAttribute(attribute);
         }
         #endregion
         #region other menu strip buttons
-
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             for (int antiInfinityLoop = 0; antiInfinityLoop < 1000 && selected.Count > 0; antiInfinityLoop++)
             {
-                Displayable.Displayables.Find(d => d.Id == selected[0]).Delete();
+                Displayable? selectedD = Displayable.Displayables.Find(d => d != null && d.Id == selected[0]);
+
+                if (selectedD == null)
+                    continue;
+
+                selectedD.Delete();
             }
         }
 
         private void setAsKeyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach (Attribute attribute in Filter<Attribute>(selected))
+            foreach (Attribute attribute in Displayable.Filter<Attribute>(selected))
                 attribute.isKey = true;
         }
 
         private void setAsNotKeyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach (Attribute attribute in Filter<Attribute>(selected))
+            foreach (Attribute attribute in Displayable.Filter<Attribute>(selected))
                 attribute.isKey = false;
         }
 
         private void renameToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string[] inputs = { "New Name" };
-            string[] outputs = Prompt.ShowDialog(inputs, "Rename", Color.White);
+            string placeholder = selected.Count == 1 ? Displayable.Find(selected[0]).Name : string.Empty;
+            Dictionary<string, string> inputs = new() { { "New Name", placeholder } };
+            string[]? outputs = Prompt.ShowDialog(inputs, "Rename", Color.White);
 
             if (outputs == null)
                 return;
 
-            foreach (int displayable in selected)
-                Displayable.Displayables.Find(d => d.Id == displayable).Name = outputs[0];
+            foreach (int id in selected)
+                Displayable.Find(id).Name = outputs[0];
         }
 
         private void allToolStripMenuItem_Click_1(object sender, EventArgs e)
@@ -378,7 +435,7 @@ namespace ERD_drawer
 
         private void changeQuantityLeftToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            List<Relationship> relationships = Filter<Relationship>(selected);
+            List<Relationship> relationships = Displayable.Filter<Relationship>(selected);
 
             if (relationships.Count == 0)
             {
@@ -388,7 +445,7 @@ namespace ERD_drawer
 
             foreach (Relationship relationship in relationships)
             {
-                string[] inputs = relationship.Links.Select(link => link.Entity.Name + "'s Quantity").ToArray();
+                Dictionary<string, string> inputs = relationship.Links.Select(link => new KeyValuePair<string, string>(link.Entity.Name, link.Quantity)).ToDictionary();
                 string[]? outputs = Prompt.ShowDialog(inputs, "Change Quantities", Color.White);
 
                 if (outputs == null)
@@ -418,17 +475,8 @@ namespace ERD_drawer
                 "\nHave fun!"
             );
         }
-
-        private void saveAsjpgToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            SaveImage(ImageFormat.Jpeg);
-        }
-
-        private void saveAspngToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            SaveImage(ImageFormat.Png);
-        }
         #endregion
+
         #region collision detection
 
         private Displayable? CheckCollisions(int x, int y)
@@ -451,32 +499,92 @@ namespace ERD_drawer
             return selected;
         }
         #endregion
-        private List<T> Filter<T>(List<int> displayableIds) where T : Displayable
-        {
-            return Displayable.Displayables.Where(displayable => displayableIds.Contains(displayable.Id)).Select(d => d as T).Where(s => s != null).Select(d => d!).ToList();
-        }
 
         private void Select(Displayable displayable)
         {
             selected.Clear();
             selected.Add(displayable.Id);
         }
-        private void SaveImage(ImageFormat format)
+
+
+        private void MoveToCentre()
         {
-            if (saveImageFileDialog.ShowDialog() != DialogResult.OK)
-                return;
+            int averageX = 0;
+            int averageY = 0;
+            foreach (Entity entity in Entity.Entities)
+            {
+                averageX += entity.X;
+                averageY += entity.Y;
+            }
+            averageX /= Entity.Entities.Count;
+            averageY /= Entity.Entities.Count;
 
-            Bitmap bitmap = new Bitmap(pictureBox1.Width, pictureBox1.Height);
-            pictureBox1.DrawToBitmap(bitmap, pictureBox1.ClientRectangle);
+            averageX -= pictureBox1.Width / 2;
+            averageY -= pictureBox1.Height / 2;
 
-            pictureBox1.Image = bitmap;  //this makes your changes visible
+            for (int i = 0; i < Displayable.Displayables.Count; i++)
+            {
+                Displayable.Displayables[i].X -= averageX;
+                Displayable.Displayables[i].Y -= averageY;
+            }
 
-            string path = saveImageFileDialog.FileName;
-            pictureBox1.Image.Save(path, format);
-
-            pictureBox1.Image = null;
+            // Scale window to fit if possible
+            int idealWidth = Displayable.Displayables.Max(dis => dis.Right) + 70;
+            int idealHeight = Displayable.Displayables.Max(dis => dis.Bottom) + 70;
         }
 
-        
+        private void fontFamilyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Dictionary<string, string> inputs = new() { { "Font", Settings.font } };
+            string[]? outputs = Prompt.ShowDialog(inputs, "Change Font Family", Color.Black);
+
+            if (outputs == null)
+                return;
+
+            Settings.font = outputs[0];
+            Settings.Apply();
+        }
+
+        private void fontSizeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Dictionary<string, string> inputs = new() { { "Font size", Settings.fontSize.ToString() } };
+            string[]? outputs = Prompt.ShowDialog(inputs, "Change Font Size", Color.Black);
+
+            if (outputs == null)
+                return;
+
+            if (int.TryParse(outputs[0], out int fontSize))
+            {
+                Settings.fontSize = fontSize;
+                Settings.Apply();
+                return;
+            }
+
+            MessageBox.Show("Could not parse font size!");
+        }
+
+        private void increaseFontSpaceWidthToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Settings.fontWidthPerCharMultiplier += 0.1f;
+            Settings.Apply();
+        }
+
+        private void increaseFontSpaceHeightToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Settings.fontHeightPerCharMultiplier += 0.1f;
+            Settings.Apply();
+        }
+
+        private void decreaseFontSpaceWidthToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Settings.fontWidthPerCharMultiplier -= 0.1f;
+            Settings.Apply();
+        }
+
+        private void decreaseFontSpaceHeightToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Settings.fontHeightPerCharMultiplier -= 0.1f;
+            Settings.Apply();
+        }
     }
 }

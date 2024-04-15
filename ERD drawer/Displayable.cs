@@ -17,7 +17,7 @@ namespace ERD_drawer
         [JsonIgnore] protected virtual int TextTop => 10;
 
         [JsonIgnore] public int Width => TextLeft * 2 + GetStringWidth(Name);
-        [JsonIgnore] public virtual int Height => 40;
+        [JsonIgnore] public virtual int Height => 20 + Settings.fontHeightPerChar;
 
         public int Id { get; set; }
         public string Name { get; set; }
@@ -45,11 +45,13 @@ namespace ERD_drawer
             }
         }
 
+        public static Displayable Find(int id) => Displayables.First(x => x.Id == id);
+
         public abstract void Draw(bool selected);
 
         protected void DrawName(bool underlined = false)
         {
-            var chosenFont = underlined ? new Font(font, FontStyle.Underline) : font;
+            Font? chosenFont = underlined ? new Font(font, FontStyle.Underline) : font;
             paper.DrawString(Name, chosenFont, brush, X + TextLeft, Y + TextTop);
         }
 
@@ -87,18 +89,7 @@ namespace ERD_drawer
         /// <returns></returns>
         public static int GetStringWidth(string text)
         {
-            //RectangleF rect = new(0, 0, 2000, 2000);
-
-            //CharacterRange[] ranges = { new(0, text.Length) };
-            //StringFormat format = new();
-            //format.SetMeasurableCharacterRanges(ranges);
-
-            //Region[] regions = paper.MeasureCharacterRanges(text, font, rect, format);
-            //rect = regions[0].GetBounds(paper);
-
-            //return (int)(rect.Right + 1.0f);
-
-            return 12 * text.Length; // haha monospace font go brrr
+            return Settings.fontWidthPerChar * text.Length; // haha monospace font go brrr
         }
 
         public virtual void Delete()
@@ -113,6 +104,17 @@ namespace ERD_drawer
             {
                 Displayables[0].Delete();
             }
+        }
+
+        public static List<T> Filter<T>(List<int>? displayableIds = null) where T : Displayable
+        {
+            List<T> values = new();
+
+            foreach(Displayable displayable in Displayables)
+                if (displayable is T child && (displayableIds == null || displayableIds.Contains(displayable.Id)))
+                    values.Add(child);
+
+            return values;
         }
     }
 }

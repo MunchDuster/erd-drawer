@@ -12,20 +12,19 @@ namespace ERD_drawer
 
         private const int itemPadding = (itemSpacing - itemHeight) / 2;
 
-        public static string[]? ShowDialog(string[] inputs, string caption, Color borderColor)
+        public static string[]? ShowDialog(Dictionary<string, string> inputs, string caption, Color borderColor)
         {
             if (inputs == null)
             {
                 Debug.WriteLine("Prompt.ShowDialog ERROR: input text array is null");
                 return null;
             }
-            if (inputs.Length == 0)
+            if (inputs.Count == 0)
             {
                 Debug.WriteLine("Prompt.ShowDialog ERROR: input text array is empty");
                 return null;
             }
-
-            int totalHeight = padding + (inputs.Length + 1) * itemSpacing;
+            int totalHeight = padding + (inputs.Count + 1) * itemSpacing;
 
             Form prompt = new() {
                 Font = Displayable.font,
@@ -59,30 +58,31 @@ namespace ERD_drawer
 
             int CalcTop(int i) => i * itemSpacing + (i + 1) * itemPadding;
 
-            int widestWidth = 0;
-
-            int[] labelWidths = new int[inputs.Length];
-            for (int i =0; i < inputs.Length; i++)
+            int[] labelWidths = new int[inputs.Count];
+            string[] labels = inputs.Keys.ToArray();
+            for (int i =0; i < inputs.Count; i++)
             {
-                labelWidths[i] = Displayable.GetStringWidth(inputs[i]) + labelPadding;
+                labelWidths[i] = Displayable.GetStringWidth(labels[i]) + labelPadding;
                 Label textLabel = new Label() { 
                     Left = 20, 
                     Top = CalcTop(i), 
                     Width = labelWidths[i], 
-                    Text = inputs[i]
+                    Text = labels[i]
                 };
                 prompt.Controls.Add(textLabel);
             }
 
             // inputs
-            TextBox[] textBoxes = new TextBox[inputs.Length];
-            for (int i = 0; i < inputs.Length; i++)
+            TextBox[] textBoxes = new TextBox[inputs.Count];
+            string[] placeholders = inputs.Values.ToArray();
+            for (int i = 0; i < inputs.Count; i++)
             {
                 int left = labelWidths[i] + 30;
-                textBoxes[i] = new TextBox() { 
-                    Left = left, 
-                    Top = CalcTop(i), 
-                    Width = totalWidth - (left + 60)
+                textBoxes[i] = new TextBox() {
+                    Left = left,
+                    Top = CalcTop(i),
+                    Width = totalWidth - (left + 60),
+                    Text = placeholders[i]
                 };
                 textBoxes[i].KeyDown += ExitIfEscapePressed;
                 prompt.Controls.Add(textBoxes[i]);

@@ -62,8 +62,8 @@
 
             bool isBySide = top.Bottom >= bottom.Top - 10;
 
-            Point topBottom = new Point(top.MiddleX, top.Bottom);
-            Point bottomTop = new Point(bottom.MiddleX, bottom.Top);
+            Point topBottom = new(top.MiddleX, top.Bottom);
+            Point bottomTop = new(bottom.MiddleX, bottom.Top);
             int midY = Lerp(topBottom.Y, bottomTop.Y, 0.5);
 
             if (isBySide)

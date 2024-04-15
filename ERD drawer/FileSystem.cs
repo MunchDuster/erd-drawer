@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Diagnostics;
+using System.Text.Json;
 
 namespace ERD_drawer
 {
@@ -15,19 +16,20 @@ namespace ERD_drawer
             //IgnoreReadOnlyProperties = true,
         };
 
-        public static Data LoadFile(string fileName)
+        public static bool LoadFile(string fileName, ref Data? data)
         {
             string jsonString = File.ReadAllText(fileName);
-
             try
             {
-                return JsonSerializer.Deserialize<Data>(jsonString, options);
+                data = JsonSerializer.Deserialize<Data>(jsonString, options);
+                return true;
             }
             catch (Exception ex)
             {
+                Debug.WriteLine(ex);
                 MessageBox.Show("Couldn't parse JSON!:\n" + ex.Message);
             }
-            return null;
+            return false;
         }
 
         public static void SaveFile(string fileName, Data data)

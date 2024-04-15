@@ -19,8 +19,6 @@ namespace ERD_drawer
         public Entity(string name, List<Attribute> attributes, int x, int y, int id) : base(name, attributes, x, y, id)
         {
             Entities.Add(this);
-            foreach (Attribute a in attributes)
-                a.parent = this; // Look at me, I am the capytan now
         }
 
         public override void Draw(bool selected)
@@ -31,9 +29,7 @@ namespace ERD_drawer
                 paper.FillRectangle(new SolidBrush(Color), X, Y, Width, Height);
 
             DrawName();
-
-            foreach (Attribute attribute in Attributes)
-                attribute.Draw(attribute.IsSelected); 
+            DrawAttributes(selected);
         }
 
         public override void Delete()

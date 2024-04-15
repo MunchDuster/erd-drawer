@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Diagnostics;
+using System.Text.Json.Serialization;
 
 namespace ERD_drawer
 {
@@ -140,14 +141,12 @@ namespace ERD_drawer
         public override void Draw(bool selected)
         {
             DrawDiamond();
-            DrawLines();
+            DrawLinesToLink();
             DrawName();
-
-            foreach (Attribute attribute in Attributes)
-                attribute.Draw(attribute.IsSelected);
+            DrawAttributes(selected);
         }
 
-        private void DrawLines()
+        private void DrawLinesToLink()
         {
             // special case for unary relationship
             if (IsUnary)
@@ -222,9 +221,9 @@ namespace ERD_drawer
 
             Point[] points =
             {
-                new (xLeft, yMid), // left
-                new (xMid, yTop), // top
-                new (xRight, yMid), // right
+                new (xLeft, yMid),   // left
+                new (xMid, yTop),    // top
+                new (xRight, yMid),  // right
                 new (xMid, yBottom), // bottom
             };
 

@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Diagnostics;
+using System.Text.Json.Serialization;
 
 namespace ERD_drawer
 {
@@ -18,6 +19,15 @@ namespace ERD_drawer
             Attributes = attributes;
         }
 
+        protected void DrawAttributes(bool selected)
+        {
+            foreach (Attribute attribute in Attributes)
+            {
+                attribute.Draw(attribute.IsSelected);
+                SplitLine.DrawVerticalCornerLine(this, attribute);
+            }
+        }
+
         public void AddAttribute(string name)
         {
             if(Attributes.Any(attribute => attribute.Name == name))
@@ -26,7 +36,7 @@ namespace ERD_drawer
                 return;
             }
 
-            Attribute attribute = new Attribute(name, 100, 100, this, false); // need to make the attribute first to get its width and height to then place it
+            Attribute attribute = new Attribute(name, 100, 100, false); // need to make the attribute first to get its width and height to then place it
             attribute.X = X - shiftLeftFromParent - attribute.Width;
             attribute.Y = Y + (Attributes.Count + 1) * (attribute.Height + attributeSpacing);
             Attributes.Add(attribute);
